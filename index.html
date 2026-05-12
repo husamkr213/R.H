@@ -5,28 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Husam ❤️ Reema</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Cairo', sans-serif; background: #000; color: white; text-align: center; overflow-x: hidden; }
+    
+    /* زر الصوت الفخم */
+    #music-control {
+      position: fixed; top: 20px; right: 20px; z-index: 1000;
+      background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2); color: white;
+      width: 50px; height: 50px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.3rem; transition: 0.3s;
+      box-shadow: 0 0 15px rgba(255, 77, 109, 0.3);
+    }
+
     #hearts-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
     .heart { position: absolute; color: rgba(255, 77, 109, 0.7); animation: float linear infinite; }
     @keyframes float { 0% { transform: translateY(110vh) scale(0.5); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-10vh) scale(1.5); opacity: 0; } }
-    .content { position: relative; z-index: 1; padding: 40px 20px; }
-    .header h1 { font-size: 2.5rem; color: #ff4d6d; text-shadow: 0 0 15px rgba(255, 77, 109, 0.5); }
-    .timer-box { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 20px; border-radius: 20px; display: inline-block; margin-top: 15px; border: 1px solid rgba(255, 255, 255, 0.2); }
-    #timer { font-size: 1.1rem; line-height: 1.6; }
-    .gallery { display: flex; flex-direction: column; align-items: center; gap: 50px; margin-top: 30px; }
-    .photo-card { width: 100%; max-width: 450px; background: rgba(255, 255, 255, 0.05); border-radius: 25px; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-    .photo-card img { width: 100%; border-radius: 18px; display: block; margin-bottom: 15px; }
-    .love-text { font-size: 1.3rem; font-weight: bold; color: #ffb3c1; }
+    
+    .content { position: relative; z-index: 1; padding: 70px 20px 40px; }
+    .header h1 { font-size: 2.8rem; color: #ff4d6d; text-shadow: 0 0 20px rgba(255, 77, 109, 0.6); margin-bottom: 10px; }
+    .timer-box { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(15px); padding: 25px; border-radius: 25px; display: inline-block; border: 1px solid rgba(255, 255, 255, 0.15); margin-bottom: 30px; }
+    #timer { font-size: 1.2rem; line-height: 1.7; color: #fff; }
+    
+    .gallery { display: flex; flex-direction: column; align-items: center; gap: 45px; }
+    .photo-card { width: 100%; max-width: 450px; background: rgba(255, 255, 255, 0.05); border-radius: 30px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
+    .photo-card img { width: 100%; border-radius: 22px; display: block; margin-bottom: 15px; }
+    .love-text { font-size: 1.3rem; font-weight: bold; color: #ffb3c1; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    
     audio { display: none; }
   </style>
 </head>
 <body>
+
+  <div id="music-control">
+    <i id="music-icon" class="fas fa-volume-mute"></i>
+  </div>
+
   <div id="hearts-container"></div>
   
-  <audio id="loveSong" autoplay loop>
-    <source src="IMG_ الحب جاني .m4a" type="audio/mp4">
+  <audio id="loveSong" loop>
+    <source src="الحب جاني .m4a" type="audio/mp4">
   </audio>
 
   <div class="content">
@@ -36,16 +57,38 @@
     </div>
 
     <div class="gallery">
+      <div class="photo-card"><img src="IMG_6122.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
       <div class="photo-card"><img src="IMG_6123.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
+      <div class="photo-card"><img src="IMG_6128.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
       <div class="photo-card"><img src="IMG_6145.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
       <div class="photo-card"><img src="IMG_6146.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
-      <div class="photo-card"><img src="IMG_6122.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
-      <div class="photo-card"><img src="IMG_6128.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
+      
+      <div class="photo-card"><img src="66666.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
+      <div class="photo-card"><img src="IMG_6120.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
+      <div class="photo-card"><img src="IMG_6121.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
+      <div class="photo-card"><img src="IMG_6125.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
+      <div class="photo-card"><img src="IMG_6147.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
+      <div class="photo-card"><img src="IMG_6149.png"><p class="love-text">بحبك وأنتي روحي وأنتي حياتي وأنتي عيوني ❤️</p></div>
     </div>
   </div>
 
   <script>
-    document.body.addEventListener('click', () => { document.getElementById('loveSong').play(); }, { once: true });
+    const song = document.getElementById('loveSong');
+    const musicBtn = document.getElementById('music-control');
+    const musicIcon = document.getElementById('music-icon');
+
+    musicBtn.addEventListener('click', () => {
+      if (song.paused) {
+        song.play();
+        musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+        musicBtn.style.background = "rgba(255, 77, 109, 0.4)";
+      } else {
+        song.pause();
+        musicIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+        musicBtn.style.background = "rgba(255, 255, 255, 0.1)";
+      }
+    });
+
     const startDate = new Date("2025-04-10T00:00:00").getTime();
     function updateTimer() {
       const diff = new Date().getTime() - startDate;
@@ -56,6 +99,7 @@
       document.getElementById("timer").innerHTML = `صار لنا مع بعض: <br> ${days} يوم و ${hours} ساعة و ${minutes} دقيقة و ${seconds} ثانية`;
     }
     setInterval(updateTimer, 1000);
+
     setInterval(() => {
       const heart = document.createElement('div');
       heart.classList.add('heart'); heart.innerHTML = '❤️';
