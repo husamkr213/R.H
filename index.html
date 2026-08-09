@@ -8,38 +8,38 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Cairo', sans-serif; background: #0a0a0a; color: #888; text-align: center; overflow-x: hidden; }
+    body { font-family: 'Cairo', sans-serif; background: #080808; color: #777; text-align: center; overflow-x: hidden; }
     
     /* زر الصوت */
     #music-control {
       position: fixed; top: 20px; right: 20px; z-index: 1000;
-      background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1); color: #888;
+      background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08); color: #777;
       width: 50px; height: 50px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; font-size: 1.3rem; transition: 0.3s;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
     }
 
     .content { position: relative; z-index: 1; padding: 70px 20px 40px; }
-    .header h1 { font-size: 2.5rem; color: #666; text-shadow: none; margin-bottom: 10px; }
-    .timer-box { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); padding: 25px; border-radius: 25px; display: inline-block; border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 30px; }
-    #timer { font-size: 1.2rem; line-height: 1.7; color: #aaa; }
+    .header h1 { font-size: 2.5rem; color: #555; text-shadow: none; margin-bottom: 10px; }
+    .timer-box { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); padding: 25px; border-radius: 25px; display: inline-block; border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 30px; }
+    #timer { font-size: 1.2rem; line-height: 1.7; color: #888; }
     
     .gallery { display: flex; flex-direction: column; align-items: center; gap: 45px; }
-    .photo-card { width: 100%; max-width: 450px; background: rgba(255, 255, 255, 0.02); border-radius: 30px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 35px rgba(0,0,0,0.8); }
+    .photo-card { width: 100%; max-width: 450px; background: rgba(255, 255, 255, 0.02); border-radius: 30px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 15px 35px rgba(0,0,0,0.9); }
     
-    /* جعل الصور داكنة وبألوان أبيض وأسود مع خفض الإضاءة */
+    /* تأثير داكن وباهت للصور (أبيض وأسود مع إعتام) */
     .photo-card img { 
       width: 100%; 
       border-radius: 22px; 
       display: block; 
       margin-bottom: 15px; 
-      filter: grayscale(100%) brightness(0.6) contrast(1.1);
+      filter: grayscale(100%) brightness(0.55) contrast(1.1);
       transition: filter 0.3s ease;
     }
     
-    .love-text { font-size: 1.2rem; font-weight: bold; color: #777; text-shadow: none; }
+    .love-text { font-size: 1.2rem; font-weight: bold; color: #666; text-shadow: none; }
     
     audio { display: none; }
   </style>
@@ -50,8 +50,9 @@
     <i id="music-icon" class="fas fa-volume-mute"></i>
   </div>
 
+  <!-- الأغنية الجديدة -->
   <audio id="loveSong" loop>
-    <source src="الحب جاني .m4a" type="audio/mp4">
+    <source src="عفتني.mp3" type="audio/mpeg">
   </audio>
 
   <div class="content">
@@ -85,17 +86,17 @@
       if (song.paused) {
         song.play();
         musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
-        musicBtn.style.background = "rgba(255, 255, 255, 0.15)";
+        musicBtn.style.background = "rgba(255, 255, 255, 0.12)";
       } else {
         song.pause();
         musicIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
-        musicBtn.style.background = "rgba(255, 255, 255, 0.05)";
+        musicBtn.style.background = "rgba(255, 255, 255, 0.04)";
       }
     });
 
-    // حساب الوقت المتوقف حتى اللحظة الحالية وثباته
+    // حساب الوقت وتثبيته متوقفاً عند لحظة الحفظ
     const startDate = new Date("2025-04-10T00:00:00").getTime();
-    const endDate = new Date().getTime(); // يتوقف عند هذه اللحظة
+    const endDate = new Date().getTime(); 
     const diff = endDate - startDate;
     
     const days = Math.floor(diff / 86400000);
