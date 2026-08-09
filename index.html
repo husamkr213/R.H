@@ -35,7 +35,7 @@
       opacity: 0.45;
     }
 
-    /* ظلال الحواف لإبراز العتمة والجر المتروك */
+    /* ظلال الحواف لإبراز العتمة والمظهر المهجور */
     .vignette-overlay {
       position: fixed;
       top: 0;
@@ -213,7 +213,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* كائن العنكبوت المصمم بالحجم الحقيقي التفاعلي */
+    /* كائن العنكبوت */
     .spider-entity {
       position: fixed;
       width: 24px;
@@ -284,7 +284,7 @@
   <!-- ظلال العتمة -->
   <div class="vignette-overlay"></div>
 
-  <!-- شبكات العنكبوت الرئيسية الشفافة في الزوايا (SVG) -->
+  <!-- شبكات العنكبوت الرئيسية في الزوايا -->
   <svg class="screen-web web-top-left" viewBox="0 0 200 200" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.6">
     <path d="M0,0 L200,0 M0,0 L0,200 M0,0 L200,200 M0,0 L140,200 M0,0 L200,140 M0,0 L80,200 M0,0 L200,80"/>
     <path d="M25,0 Q25,25 0,25 M50,0 Q50,50 0,50 M75,0 Q75,75 0,75 M100,0 Q100,100 0,100 M125,0 Q125,125 0,125 M150,0 Q150,150 0,150 M175,0 Q175,175 0,175" stroke-dasharray="3,1"/>
@@ -342,7 +342,7 @@
       </div>
     </div>
 
-    <!-- قائمة الصور مجهزة بشبكات أركان تفصيلية لكل صورة -->
+    <!-- قائمة الصور مجهزة بشبكات أركان لكل صورة -->
     <div class="gallery">
 
       <div class="photo-card">
@@ -466,7 +466,7 @@
       }
     });
 
-    /* 2. حساب وتثبيت الوقت عند اللحظة المحددة */
+    /* 2. حساب وتثبيت الوقت */
     const startDate = new Date("2025-04-10T00:00:00").getTime();
     const endDate = new Date("2026-08-09T17:36:00").getTime(); 
     const diff = endDate - startDate;
@@ -478,7 +478,7 @@
     
     document.getElementById("timer").innerHTML = `توقف الوقت عند:<br><strong>${days}</strong> يوم و <strong>${hours}</strong> ساعة و <strong>${minutes}</strong> دقيقة و <strong>${seconds}</strong> ثانية`;
 
-    /* 3. محرك جزيئات الغبار المتطاير في الهواء (Dust Effect) */
+    /* 3. محرك جزيئات الغبار */
     const canvas = document.getElementById('dustCanvas');
     const ctx = canvas.getContext('2d');
     
@@ -521,7 +521,7 @@
     }
     animateDust();
 
-    /* 4. برمجة العناكب الحية والتفاعل كل 10 ثوانٍ */
+    /* 4. برمجة العناكب الحية */
     function triggerSpiders() {
       const spider1 = document.getElementById('spider1');
       const spider2 = document.getElementById('spider2');
@@ -540,7 +540,6 @@
       spider2.style.left = targetX2 + 'px';
       spider2.classList.add('active');
 
-      /* إخفاء العناكب مجدداً بعد انقضاء الزحف */
       setTimeout(() => {
         spider1.classList.remove('active');
         spider2.classList.remove('active');
