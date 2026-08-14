@@ -3,553 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Husam & Reema - Forgotten Memories</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+  <title>Husam ❤️ Reema</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Cairo', sans-serif;
-      background-color: #020202;
-      color: #666;
-      text-align: center;
-      overflow-x: hidden;
-      position: relative;
-      min-height: 100vh;
-    }
-
-    /* خلفية الغبار والضباب المتحرك */
-    #dustCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.45;
-    }
-
-    /* ظلال الحواف لإبراز العتمة والمظهر المهجور */
-    .vignette-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2;
-      background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.95) 90%);
-    }
-
-    /* زر مشغل الصوت */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Cairo', sans-serif; background: #000; color: white; text-align: center; overflow-x: hidden; }
+    
+    /* زر الصوت */
     #music-control {
-      position: fixed;
-      top: 25px;
-      right: 25px;
-      z-index: 100;
-      background: rgba(15, 15, 15, 0.6);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #666;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.2rem;
-      transition: all 0.4s ease;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
-    }
-    #music-control:hover {
-      color: #aaa;
-      border-color: rgba(255, 255, 255, 0.2);
+      position: fixed; top: 20px; right: 20px; z-index: 1000;
+      background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2); color: white;
+      width: 50px; height: 50px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.3rem; transition: 0.3s;
+      box-shadow: 0 0 15px rgba(255, 77, 109, 0.3);
     }
 
-    /* الحاوية الرئيسية */
-    .content {
-      position: relative;
-      z-index: 10;
-      padding: 80px 20px 60px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* عنوان الصفحة والمؤقت */
-    .header h1 {
-      font-size: 2.2rem;
-      font-weight: 300;
-      color: #4a4a4a;
-      letter-spacing: 2px;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-    }
-
-    .timer-box {
-      background: rgba(10, 10, 10, 0.7);
-      backdrop-filter: blur(12px);
-      padding: 22px 30px;
-      border-radius: 20px;
-      display: inline-block;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      margin-bottom: 50px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      position: relative;
-    }
-
-    .timer-box::before {
-      content: '';
-      position: absolute;
-      top: -5px;
-      left: 20%;
-      right: 20%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    }
-
-    #timer {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      color: #777;
-    }
-
-    /* معرض الصور */
-    .gallery {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 55px;
-    }
-
-    /* كروت الصور والتصميم الداكن المهجور */
-    .photo-card {
-      position: relative;
-      width: 100%;
-      background: #090909;
-      border-radius: 24px;
-      padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.95);
-      transition: transform 0.5s ease;
-      overflow: hidden;
-    }
-
-    /* تصميم شبكة عنكبوت واقعية متدلية على زوايا الكرت */
-    .realistic-web-top {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 140px;
-      height: 140px;
-      pointer-events: none;
-      z-index: 5;
-      opacity: 0.65;
-    }
-
-    .realistic-web-bottom {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 120px;
-      height: 120px;
-      pointer-events: none;
-      z-index: 5;
-      opacity: 0.55;
-      transform: scale(-1, -1);
-    }
-
-    /* إطارات وتأثير التعتيم على الصور */
-    .photo-wrapper {
-      position: relative;
-      overflow: hidden;
-      border-radius: 18px;
-    }
-
-    .photo-card img {
-      width: 100%;
-      display: block;
-      filter: grayscale(100%) brightness(0.42) contrast(1.25);
-      transition: filter 0.6s ease, transform 0.6s ease;
-    }
-
-    .photo-card:hover img {
-      filter: grayscale(80%) brightness(0.55) contrast(1.15);
-      transform: scale(1.02);
-    }
-
-    /* تأثير الطبقة المغبرة فوق الصورة */
-    .photo-wrapper::after {
-      content: '';
-      position: absolute;
-      top:0; left:0; width:100%; height:100%;
-      background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.4) 100%);
-      pointer-events: none;
-    }
-
-    .love-text {
-      margin-top: 16px;
-      font-size: 1.05rem;
-      font-weight: 400;
-      color: #555;
-      letter-spacing: 0.5px;
-    }
-
-    /* كائن العنكبوت */
-    .spider-entity {
-      position: fixed;
-      width: 24px;
-      height: 24px;
-      z-index: 15;
-      pointer-events: none;
-      opacity: 0;
-      transition: top 6s ease-in-out, left 6s ease-in-out, opacity 1s ease;
-    }
-
-    .spider-body {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-
-    .spider-head {
-      position: absolute;
-      top: 8px;
-      left: 9px;
-      width: 6px;
-      height: 6px;
-      background: #222;
-      border-radius: 50%;
-      box-shadow: 0 0 2px #000;
-    }
-
-    .spider-abdomen {
-      position: absolute;
-      top: 12px;
-      left: 7px;
-      width: 10px;
-      height: 11px;
-      background: #181818;
-      border-radius: 50%;
-      border: 1px solid #111;
-    }
-
-    .leg {
-      position: absolute;
-      width: 10px;
-      height: 1px;
-      background: #252525;
-    }
-    .leg-left-1 { top: 9px; left: 0px; transform: rotate(-25deg); }
-    .leg-left-2 { top: 11px; left: -1px; transform: rotate(-5deg); }
-    .leg-left-3 { top: 13px; left: -1px; transform: rotate(15deg); }
-    .leg-left-4 { top: 15px; left: 1px; transform: rotate(35deg); }
-
-    .leg-right-1 { top: 9px; right: 0px; transform: rotate(25deg); }
-    .leg-right-2 { top: 11px; right: -1px; transform: rotate(5deg); }
-    .leg-right-3 { top: 13px; right: -1px; transform: rotate(-15deg); }
-    .leg-right-4 { top: 15px; right: 1px; transform: rotate(-35deg); }
-
-    .spider-entity.active {
-      opacity: 0.85;
-    }
-
+    #hearts-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    .heart { position: absolute; color: rgba(255, 77, 109, 0.7); animation: float linear infinite; }
+    @keyframes float { 0% { transform: translateY(110vh) scale(0.5); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-10vh) scale(1.5); opacity: 0; } }
+    
+    .content { position: relative; z-index: 1; padding: 70px 20px 40px; }
+    .header h1 { font-size: 2.8rem; color: #ff4d6d; text-shadow: 0 0 20px rgba(255, 77, 109, 0.6); margin-bottom: 10px; }
+    .timer-box { background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(15px); padding: 25px; border-radius: 25px; display: inline-block; border: 1px solid rgba(255, 255, 255, 0.15); margin-bottom: 30px; }
+    #timer { font-size: 1.2rem; line-height: 1.7; color: #fff; }
+    
+    .gallery { display: flex; flex-direction: column; align-items: center; gap: 45px; }
+    .photo-card { width: 100%; max-width: 450px; background: rgba(255, 255, 255, 0.05); border-radius: 30px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
+    .photo-card img { width: 100%; border-radius: 22px; display: block; margin-bottom: 15px; }
+    .love-text { font-size: 1.3rem; font-weight: bold; color: #ffb3c1; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+    
     audio { display: none; }
   </style>
 </head>
 <body>
 
-  <!-- كانفاس جزيئات الغبار -->
-  <canvas id="dustCanvas"></canvas>
-
-  <!-- ظلال العتمة -->
-  <div class="vignette-overlay"></div>
-
-  <!-- الكيانات التفاعلية للعناكب -->
-  <div class="spider-entity" id="spider1">
-    <div class="spider-body">
-      <div class="spider-head"></div>
-      <div class="spider-abdomen"></div>
-      <div class="leg leg-left-1"></div><div class="leg leg-left-2"></div><div class="leg leg-left-3"></div><div class="leg leg-left-4"></div>
-      <div class="leg leg-right-1"></div><div class="leg leg-right-2"></div><div class="leg leg-right-3"></div><div class="leg leg-right-4"></div>
-    </div>
-  </div>
-
-  <div class="spider-entity" id="spider2">
-    <div class="spider-body">
-      <div class="spider-head"></div>
-      <div class="spider-abdomen"></div>
-      <div class="leg leg-left-1"></div><div class="leg leg-left-2"></div><div class="leg leg-left-3"></div><div class="leg leg-left-4"></div>
-      <div class="leg leg-right-1"></div><div class="leg leg-right-2"></div><div class="leg leg-right-3"></div><div class="leg leg-right-4"></div>
-    </div>
-  </div>
-
-  <!-- مشغل الموسيقى -->
   <div id="music-control">
     <i id="music-icon" class="fas fa-volume-mute"></i>
   </div>
 
-  <audio id="loveSong" loop playsinline preload="auto">
-    <source src="Songggg.mp3" type="audio/mpeg">
+  <div id="hearts-container"></div>
+  
+  <audio id="loveSong" loop>
+    <source src="الحب جاني .m4a" type="audio/mp4">
   </audio>
 
-  <!-- المحتوى الرئيسي -->
   <div class="content">
     <div class="header">
-      <h1>Husam & Reema</h1>
-      <div class="timer-box">
-        <div id="timer">انتهى الوقت</div>
-      </div>
+      <h1>Husam ❤️ Reema</h1>
+      <div class="timer-box"><div id="timer">نحسب أيامنا معاً...</div></div>
     </div>
 
-    <!-- قائمة الصور -->
     <div class="gallery">
-
-      <div class="photo-card">
-        <svg class="realistic-web-top" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.5">
-          <!-- خيوط أساسية متجهة للداخل -->
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <!-- حلزونات متدلية مع انحناء واقعي -->
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-          <path d="M18,0 Q8,68 100,92" />
-        </svg>
-        <div class="photo-wrapper"><img src="IMG_6122.png" alt="memory"></div>
-        <p class="love-text">Ich liebe dich 🤍🫶🏻</p>
-      </div>
-
-      <div class="photo-card">
-        <svg class="realistic-web-bottom" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.5">
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-        </svg>
-        <div class="photo-wrapper"><img src="IMG_6123.png" alt="memory"></div>
-        <p class="love-text">حياتي انتي ❤️</p>
-      </div>
-
-      <div class="photo-card">
-        <svg class="realistic-web-top" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.5">
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-        </svg>
-        <div class="photo-wrapper"><img src="IMG_6128.png" alt="memory"></div>
-        <p class="love-text">אני אוהב אותך ❤️‍🔥</p>
-      </div>
-
-      <div class="photo-card">
-        <svg class="realistic-web-bottom" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.5">
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-        </svg>
-        <div class="photo-wrapper"><img src="IMG_6145.png" alt="memory"></div>
-        <p class="love-text">אני לא רוצה לעזוב אותך ❤️‍🩹🫶🏻</p>
-      </div>
-
-      <div class="photo-card">
-        <svg class="realistic-web-top" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.5">
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-        </svg>
-        <div class="photo-wrapper"><img src="IMG_6146.png" alt="memory"></div>
-        <p class="love-text">אתה החיים שלי ❤️‍🔥</p>
-      </div>
-
-      <div class="photo-card">
-        <svg class="realistic-web-bottom" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.5">
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-        </svg>
-        <div class="photo-wrapper"><img src="66666.png" alt="memory"></div>
-        <p class="love-text">Lonely Lonley 😍</p>
-      </div>
-
-      <div class="photo-card">
-        <svg class="realistic-web-top" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.5">
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-        </svg>
-        <div class="photo-wrapper"><img src="IMG_6120.png" alt="memory"></div>
-        <p class="love-text">i love you ro7e 👀❤️</p>
-      </div>
-
-      <div class="photo-card">
-        <svg class="realistic-web-bottom" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.5">
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-        </svg>
-        <div class="photo-wrapper"><img src="IMG_6121.png" alt="memory"></div>
-        <p class="love-text">حياتي حلوة معاكي ❤️</p>
-      </div>
-
-      <div class="photo-card">
-        <svg class="realistic-web-top" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.5">
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-        </svg>
-        <div class="photo-wrapper"><img src="IMG_6125.png" alt="memory"></div>
-        <p class="love-text">انا بموت عليك يروحي 🤍🫶🏻</p>
-      </div>
-
-      <div class="photo-card">
-        <svg class="realistic-web-bottom" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="0.5">
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-        </svg>
-        <div class="photo-wrapper"><img src="IMG_6147.png" alt="memory"></div>
-        <p class="love-text">لو تعرف قديش بحبك وبحب حياتي معك 😍❤️</p>
-      </div>
-
-      <div class="photo-card">
-        <svg class="realistic-web-top" viewBox="0 0 100 100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="0.5">
-          <path d="M100,0 L0,0 M100,0 L0,40 M100,0 L15,85 M100,0 L60,100 M100,0 L100,100" />
-          <path d="M85,0 Q82,10 100,15" />
-          <path d="M70,0 Q65,22 100,30" />
-          <path d="M52,0 Q45,35 100,50" />
-          <path d="M35,0 Q26,50 100,72" />
-        </svg>
-        <div class="photo-wrapper"><img src="IMG_6149.png" alt="memory"></div>
-        <p class="love-text">بحب اشوف ضحكتك دايماً ❤️</p>
-      </div>
-
+      <div class="photo-card"><img src="IMG_6122.png"><p class="love-text">Ich liebe dich 🤍🫶🏻</p></div>
+      <div class="photo-card"><img src="IMG_6123.png"><p class="love-text">حياتي انتي ❤️</p></div>
+      <div class="photo-card"><img src="IMG_6128.png"><p class="love-text">אני אוهב אותך ❤️‍🔥</p></div>
+      <div class="photo-card"><img src="IMG_6145.png"><p class="love-text">אני לא רוצה לעזוב אותך ❤️‍🩹🫶🏻</p></div>
+      <div class="photo-card"><img src="IMG_6146.png"><p class="love-text">אתה החיים שלי ❤️‍🔥</p></div>
+      
+      <div class="photo-card"><img src="66666.png"><p class="love-text">Lonely Lonley 😍</p></div>
+      <div class="photo-card"><img src="IMG_6120.png"><p class="love-text">i love you ro7e 👀❤️</p></div>
+      <div class="photo-card"><img src="IMG_6121.png"><p class="love-text">حياتي حلوة معاكي ❤️</p></div>
+      <div class="photo-card"><img src="IMG_6125.png"><p class="love-text">انا بموت عليك يروحي 🤍🫶🏻</p></div>
+      <div class="photo-card"><img src="IMG_6147.png"><p class="love-text">لو تعرف قديش بحبك وبحب حياتي معك 😍❤️</p></div>
+      <div class="photo-card"><img src="IMG_6149.png"><p class="love-text">بحب اشوف ضحكتك دايماً ❤️</p></div>
     </div>
   </div>
 
   <script>
-    /* 1. إدارة تشغيل الصوت */
     const song = document.getElementById('loveSong');
     const musicBtn = document.getElementById('music-control');
     const musicIcon = document.getElementById('music-icon');
 
     musicBtn.addEventListener('click', () => {
       if (song.paused) {
-        song.play().then(() => {
-          musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
-          musicBtn.style.borderColor = "rgba(255, 255, 255, 0.25)";
-        }).catch(err => console.log(err));
+        song.play();
+        musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+        musicBtn.style.background = "rgba(255, 77, 109, 0.4)";
       } else {
         song.pause();
         musicIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
-        musicBtn.style.borderColor = "rgba(255, 255, 255, 0.08)";
+        musicBtn.style.background = "rgba(255, 255, 255, 0.1)";
       }
     });
 
-    /* 2. حساب وتثبيت الوقت */
     const startDate = new Date("2025-04-10T00:00:00").getTime();
-    const endDate = new Date("2026-08-09T17:36:00").getTime(); 
-    const diff = endDate - startDate;
-    
-    const days = Math.floor(diff / 86400000);
-    const hours = Math.floor((diff % 86400000) / 3600000);
-    const minutes = Math.floor((diff % 3600000) / 60000);
-    const seconds = Math.floor((diff % 60000) / 1000);
-    
-    document.getElementById("timer").innerHTML = `توقف الوقت عند:<br><strong>${days}</strong> يوم و <strong>${hours}</strong> ساعة و <strong>${minutes}</strong> دقيقة و <strong>${seconds}</strong> ثانية`;
-
-    /* 3. محرك جزيئات الغبار */
-    const canvas = document.getElementById('dustCanvas');
-    const ctx = canvas.getContext('2d');
-    
-    let particles = [];
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+    function updateTimer() {
+      const diff = new Date().getTime() - startDate;
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      document.getElementById("timer").innerHTML = `صار لنا مع بعض: <br> ${days} يوم و ${hours} ساعة و ${minutes} دقيقة و ${seconds} ثانية`;
     }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    setInterval(updateTimer, 1000);
 
-    for (let i = 0; i < 45; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 1.2 + 0.3,
-        alpha: Math.random() * 0.5 + 0.1,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.2
-      });
-    }
-
-    function animateDust() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(200, 200, 200, ${p.alpha})`;
-        ctx.fill();
-      });
-      requestAnimationFrame(animateDust);
-    }
-    animateDust();
-
-    /* 4. برمجة العناكب الحية */
-    function triggerSpiders() {
-      const spider1 = document.getElementById('spider1');
-      const spider2 = document.getElementById('spider2');
-
-      const targetY1 = Math.random() * (window.innerHeight - 100) + 50;
-      const targetX1 = Math.random() * (window.innerWidth - 100) + 50;
-
-      const targetY2 = Math.random() * (window.innerHeight - 100) + 50;
-      const targetX2 = Math.random() * (window.innerWidth - 100) + 50;
-
-      spider1.style.top = targetY1 + 'px';
-      spider1.style.left = targetX1 + 'px';
-      spider1.classList.add('active');
-
-      spider2.style.top = targetY2 + 'px';
-      spider2.style.left = targetX2 + 'px';
-      spider2.classList.add('active');
-
-      setTimeout(() => {
-        spider1.classList.remove('active');
-        spider2.classList.remove('active');
-      }, 5500);
-    }
-
-    triggerSpiders();
-    setInterval(triggerSpiders, 10000);
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.classList.add('heart'); heart.innerHTML = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      document.getElementById('hearts-container').appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }, 400);
   </script>
 </body>
 </html>
